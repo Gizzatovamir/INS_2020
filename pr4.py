@@ -60,6 +60,35 @@ def test(model, data):
     print("poelem")
     print(each)
 
+def pr(a):
+    print(a[0][0])
+    return 1 if a[0][0] > 0.5 else 0
+
+def test1(model):
+    weights = []
+    for i in model.layers:
+        weights.append(i.get_weights())
+    print("__________")
+    print("model")
+    print(pr(model.predict(np.array([[0, 0, 0]]))))
+    print('tensor')
+    print(pr(through_tensor(np.array([[0,0,0]]), weights)))
+    print('poelem')
+    print(pr(poelem(np.array([[0,0,0]]),weights)))
+    print("__________")
+    print("model")
+    print(pr(model.predict(np.array([[0, 0, 1]]))))
+    print('tensor')
+    print(pr(through_tensor(np.array([[0, 0, 1]]), weights)))
+    print('poelem')
+    print(pr(poelem(np.array([[0, 0, 1]]), weights)))
+    print("__________")
+    print("model")
+    print(pr(model.predict(np.array([[0, 1, 0]]))))
+    print('tensor')
+    print(pr(through_tensor(np.array([[0, 1, 0]]), weights)))
+    print('poelem')
+    print(pr(poelem(np.array([[0, 1, 0]]), weights)))
 
 if __name__ == '__main__':
     a = np.genfromtxt('pr4.txt', delimiter=';')
@@ -70,10 +99,10 @@ if __name__ == '__main__':
     model.add(Dense(1, activation="sigmoid"))
     model.compile(optimizer="adam", loss="binary_crossentropy", metrics=['accuracy'])
     print("before")
-    test(model, a)
+    test1(model)
     model.fit(a, res(a), epochs=20, batch_size=1)
     print("after")
-    test(model, a)
-    print("predict")
+    test1(model)
+
 
     #print(model.predict(a))
